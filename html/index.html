@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- 
+    ===========================
+    SEO 기본 설정
+    ===========================
+    - title: 브라우저 탭 제목
+    - description: 검색 결과 설명에 활용될 수 있음
+    - keywords: 요즘 영향은 약하지만 기본 세팅용으로 넣어둠
+  -->
+  <title>U-Check | 실시간 급상승 랭킹 & 하루 이슈 랭킹</title>
+  <meta name="description" content="실시간 급상승 랭킹과 하루 이슈 랭킹을 한눈에 확인하고, 유튜브 대본 아이디어로 연결하는 U-Check 메인페이지" />
+  <meta name="keywords" content="유튜브 대본, 급상승 랭킹, 이슈 랭킹, 트렌드, U-Check, 유튜브 주제 추천" />
+  <meta name="author" content="U-Check" />
+
+  <style>
+    /* 
+      ===========================
+      1. 전체 공통 설정
+      ===========================
+      - 색상 변수는 여기서 한 번에 수정 가능
+      - 사이트 전체 톤 바꾸고 싶을 때 제일 먼저 보는 곳
+    */
+    :root {
+      --main-red: #e62117;      /* 유튜브 느낌의 메인 빨강 */
+      --main-blue: #1e88e5;     /* 체크/보조 포인트용 파랑 */
+      --text-dark: #222222;     /* 기본 글자색 */
+      --text-gray: #666666;     /* 설명문 / 보조 글씨 */
+      --line-gray: #e5e7eb;     /* 카드 테두리 / 구분선 */
+      --bg-light: #f8f9fb;      /* 전체 배경 */
+      --white: #ffffff;         /* 흰색 */
+      --hover-light: #fff3f2;   /* 항목 hover 시 옅은 배경 */
+      --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.06);
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+      --max-width: 1280px;      /* 전체 콘텐츠 최대 너비 */
+    }
+
+    /* 브라우저 기본 여백 제거 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* 부드러운 스크롤 */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      background: var(--bg-light);
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    /* 
+      공통 컨테이너
+      - 안쪽 콘텐츠 가로폭 제한
+      - 좌우 여백 자동 조정
+    */
+    .container {
+      width: min(100% - 32px, var(--max-width));
+      margin: 0 auto;
+    }
+
+    /* 
+      ===========================
+      2. 헤더 영역
+      ===========================
+      - 로고 / 메뉴 / 로그인 / 회원가입
+      - 나중에 메뉴 더 추가하고 싶으면 nav 안에 a 태그 추가
+    */
+    .site-header {
+      background: var(--white);
+      border-bottom: 1px solid var(--line-gray);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .header-inner {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    /* 로고 묶음 */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    /* 
+      로고 아이콘
+      - 현재는 CSS로 간단히 만든 임시 로고
+      - 나중에 네가 만든 실제 로고 이미지로 교체 가능
+      - 교체 방법:
+        1) 아래 .logo-mark 부분 지우고
+        2) <img src="로고파일경로" alt="U-Check 로고"> 넣기
+    */
+    .logo-mark {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: var(--main-red);
+      position: relative;
+      box-shadow: 0 8px 20px rgba(230, 33, 23, 0.25);
+      flex-shrink: 0;
+    }
+
+    /* 파란 체크 표시 */
+    .logo-mark::after {
+      content: "";
+      position: absolute;
+      left: 12px;
+      top: 10px;
+      width: 22px;
+      height: 12px;
+      border-left: 5px solid var(--main-blue);
+      border-bottom: 5px solid var(--main-blue);
+      transform: rotate(-45deg);
+      border-radius: 2px;
+    }
+
+    .logo-text-wrap {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .logo-title {
+      font-size: 1.45rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .logo-title .u-red {
+      color: var(--main-red);
+    }
+
+    .logo-title .check-blue {
+      color: var(--main-blue);
+    }
+
+    .logo-sub {
+      font-size: 0.83rem;
+      color: var(--text-gray);
+      margin-top: 4px;
+    }
+
+    /* 상단 메뉴 */
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      margin-left: auto;
+    }
+
+    .nav-menu a {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      transition: color 0.2s ease;
+    }
+
+    .nav-menu a:hover {
+      color: var(--main-red);
+    }
+
+    /* 우측 버튼 묶음 */
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 18px;
+      border-radius: 999px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+    }
+
+    .btn-outline {
+      background: var(--white);
+      color: var(--main-red);
+      border-color: var(--main-red);
+    }
+
+    .btn-outline:hover {
+      background: #fff5f5;
+    }
+
+    .btn-primary {
+      background: var(--main-red);
+      color: var(--white);
+      box-shadow: 0 8px 20px rgba(230, 33, 23, 0.18);
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.03);
+      transform: translateY(-1px);
+    }
+
+    /* 
+      ===========================
+      3. 히어로 영역 (메인 첫 문구)
+      ===========================
+      - 사이트 첫 인상
+      - 제목 / 설명 / 버튼
+      - 아래 랭킹 영역으로 자연스럽게 연결
+    */
+    .hero {
+      padding: 48px 0 26px;
+    }
+
+    .hero-box {
+      background: linear-gradient(135deg, #ffffff 0%, #fff9f9 100%);
+      border: 1px solid #f2d9d8;
+      border-radius: 28px;
+      padding: 42px 34px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff1f0;
+      color: var(--main-red);
+      border: 1px solid #ffd7d4;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    .hero-title {
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      line-height: 1.15;
+      letter-spacing: -0.04em;
+      font-weight: 900;
+      max-width: 860px;
+      margin-bottom: 16px;
+    }
+
+    .hero-title .highlight-red {
+      color: var(--main-red);
+    }
+
+    .hero-title .highlight-blue {
+      color: var(--main-blue);
+    }
+
+    .hero-desc {
+      max-width: 760px;
+      color: var(--text-gray);
+      font-size: 1.03rem;
+      margin-bottom: 24px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* 
+      ===========================
+      4. 랭킹 메인 섹션
+      ===========================
+      - 좌: 실시간 급상승 랭킹
+      - 우: 하루 이슈 랭킹
+      - 1위는 큰 이미지 + 큰 제목
+      - 2~5위는 텍스트 목록
+    */
+    .ranking-section {
+      padding: 18px 0 50px;
+    }
+
+    .ranking-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    /* 랭킹 카드 하나 */
+    .ranking-card {
+      background: var(--white);
+      border: 1px solid var(--line-gray);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+
+    /* 카드 상단 제목 줄 */
+    .ranking-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 20px 22px;
+      border-bottom: 1px solid var(--line-gray);
+    }
+
+    .ranking-card-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* 제목 왼쪽 빨간 포인트 바 */
+    .ranking-card-title::before {
+      content: "";
+      width: 6px;
+      height: 22px;
+      border-radius: 999px;
+      background: var(--main-red);
+      display: inline-block;
+    }
+
+    .more-link {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--main-red);
+    }
+
+    .more-link:hover {
+      text-decoration: underline;
+    }
+
+    /* 카드 본문 */
+    .ranking-card-body {
+      padding: 22px;
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 18px;
+    }
+
+    /* 
+      ===========================
+      4-1. 1위 대표 영역
+      ===========================
+      - 이미지
+      - 제목
+      - 짧은 설명
+      - 네가 이미지 바꾸고 싶으면 img src 수정
+    */
+    .featured-rank {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .featured-thumb {
+      position: relative;
+      border-radius: 18px;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+      background: #ddd;
+    }
+
+    .featured-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* 이미지 위에 붙는 1위 배지 */
+    .rank-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--main-red);
+      color: var(--white);
+      font-weight: 800;
+      font-size: 0.9rem;
+      padding: 8px 12px;
+      border-radius: 999px;
+      box-shadow: 0 8px 18px rgba(230, 33, 23, 0.25);
+    }
+
+    .featured-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      line-height: 1.35;
+      letter-spacing: -0.025em;
+    }
+
+    .featured-title:hover {
+      color: var(--main-red);
+    }
+
+    .featured-desc {
+      font-size: 0.96rem;
+      color: var(--text-gray);
+    }
+
+    /* 
+      ===========================
+      4-2. 2~5위 텍스트 랭킹 리스트
+      ===========================
+      - 이미지 없이 텍스트만
+      - 각 줄 클릭 가능
+      - hover 시 살짝 강조
+    */
+    .rank-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .rank-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 12px;
+      border-radius: var(--radius-sm);
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .rank-item:hover {
+      background: var(--hover-light);
+      transform: translateX(2px);
+    }
+
+    .rank-number {
+      min-width: 28px;
+      font-size: 1rem;
+      font-weight: 900;
+      color: var(--main-red);
+      line-height: 1.4;
+    }
+
+    .rank-text {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .rank-headline {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--text-dark);
+
+      /* 제목 길면 한 줄 말줄임 처리 */
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .rank-meta {
+      font-size: 0.84rem;
+      color: var(--text-gray);
+    }
+
+    /* 
+      ===========================
+      5. 하단 보조 섹션
+      ===========================
+      - 사이트 설명 / CTA
+      - 나중에 기능 소개 섹션으로 바꿔도 됨
+    */
+    .info-section {
+      padding: 0 0 60px;
+    }
+
+    .info-box {
+      background: var(--white);
+      border: 1px solid var(--line-gray);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .info-text h2 {
+      font-size: 1.45rem;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      margin-bottom: 10px;
+    }
+
+    .info-text p {
+      color: var(--text-gray);
+      max-width: 760px;
+    }
+
+    /* 
+      ===========================
+      6. 푸터
+      ===========================
+      - 맨 아래 정보
+      - 나중에 약관, 개인정보처리방침 링크 추가 가능
+    */
+    .site-footer {
+      background: var(--white);
+      border-top: 1px solid var(--line-gray);
+    }
+
+    .footer-inner {
+      padding: 24px 0 36px;
+      color: var(--text-gray);
+      font-size: 0.92rem;
+    }
+
+    .footer-top {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .footer-brand {
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-links a:hover {
+      color: var(--main-red);
+    }
+
+    /* 
+      ===========================
+      7. 반응형 처리
+      ===========================
+      - 화면 줄어들면 2열 -> 1열
+      - 모바일에서 메뉴는 숨기고 버튼만 유지
+      - 나중에 햄버거 메뉴 넣고 싶으면 여기 확장
+    */
+
+    /* 태블릿 이하 */
+    @media (max-width: 1100px) {
+      .ranking-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* 중간 화면 */
+    @media (max-width: 860px) {
+      .nav-menu {
+        display: none;
+      }
+
+      .hero-box {
+        padding: 32px 24px;
+      }
+
+      .ranking-card-body {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* 모바일 */
+    @media (max-width: 600px) {
+      .header-inner {
+        min-height: 70px;
+      }
+
+      .logo-title {
+        font-size: 1.2rem;
+      }
+
+      .logo-sub {
+        display: none;
+      }
+
+      .header-actions {
+        gap: 8px;
+      }
+
+      .btn {
+        min-height: 40px;
+        padding: 0 14px;
+        font-size: 0.88rem;
+      }
+
+      .hero {
+        padding-top: 28px;
+      }
+
+      .hero-title {
+        font-size: 1.8rem;
+      }
+
+      .hero-desc {
+        font-size: 0.95rem;
+      }
+
+      .ranking-card-header,
+      .ranking-card-body,
+      .info-box {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .featured-title {
+        font-size: 1.1rem;
+      }
+
+      .rank-headline {
+        font-size: 0.94rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 
+    ===========================
+    헤더 시작
+    ===========================
+    수정 포인트:
+    - 로고 이름 변경: U-Check 부분 수정
+    - 메뉴명 수정: 홈, 실시간 랭킹, 하루 이슈 등
+    - 로그인/회원가입 링크 연결
+  -->
+  <header class="site-header">
+    <div class="container header-inner">
+
+      <!-- 로고 영역 -->
+      <a href="#" class="logo" aria-label="U-Check 홈으로 이동">
+        <div class="logo-mark"></div>
+        <div class="logo-text-wrap">
+          <div class="logo-title">
+            <span class="u-red">U</span>-<span class="check-blue">Check</span>
+          </div>
+          <div class="logo-sub">트렌드 확인부터 대본 아이디어까지</div>
+        </div>
+      </a>
+
+      <!-- 상단 메뉴 -->
+      <nav class="nav-menu">
+        <a href="#">홈</a>
+        <a href="#">실시간 랭킹</a>
+        <a href="#">하루 이슈</a>
+        <a href="#">카테고리</a>
+        <a href="#">문의</a>
+      </nav>
+
+      <!-- 우측 로그인/회원가입 버튼 -->
+      <div class="header-actions">
+        <!-- 
+          로그인 페이지 연결할 때:
+          href="login.html" 로 수정
+        -->
+        <a href="#" class="btn btn-outline">로그인</a>
+
+        <!-- 
+          회원가입 페이지 연결할 때:
+          href="signup.html" 로 수정
+        -->
+        <a href="#" class="btn btn-primary">회원가입</a>
+      </div>
+
+    </div>
+  </header>
+
+  <main>
+    <!-- 
+      ===========================
+      히어로 섹션
+      ===========================
+      수정 포인트:
+      - 메인 제목
+      - 설명 문구
+      - 버튼 문구 / 링크
+    -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-box">
+          <div class="hero-badge">실시간 트렌드 기반 유튜브 대본 아이디어</div>
+
+          <h1 class="hero-title">
+            지금 뜨는 키워드를 빠르게 확인하고<br />
+            <span class="highlight-red">급상승 주제</span>를
+            <span class="highlight-blue">대본 아이디어</span>로 연결하세요
+          </h1>
+
+          <p class="hero-desc">
+            U-Check는 실시간 급상승 랭킹과 하루 이슈 랭킹을 한눈에 보여주어
+            유튜브 영상 주제 선정, 대본 흐름 구성, 아이디어 탐색을 더 빠르게 할 수 있도록 돕는 서비스입니다.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#" class="btn btn-primary">지금 시작하기</a>
+            <a href="#" class="btn btn-outline">랭킹 보러가기</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 
+      ===========================
+      메인 랭킹 섹션
+      ===========================
+      구조:
+      - 왼쪽 카드: 실시간 급상승 랭킹
+      - 오른쪽 카드: 하루 이슈 랭킹
+
+      중요 수정 포인트:
+      1) 썸네일 이미지 주소 교체
+      2) 제목/설명/메타 정보 교체
+      3) 더보기 링크 연결
+    -->
+    <section class="ranking-section">
+      <div class="container">
+        <div class="ranking-grid">
+
+          <!-- =========================================
+               카드 1: 실시간 급상승 랭킹
+               ========================================= -->
+          <article class="ranking-card">
+            <div class="ranking-card-header">
+              <h2 class="ranking-card-title">실시간 급상승 랭킹</h2>
+              <a href="#" class="more-link">더보기</a>
+            </div>
+
+            <div class="ranking-card-body">
+
+              <!-- 1위 크게 노출되는 영역 -->
+              <div class="featured-rank">
+                <a href="#" class="featured-thumb">
+                  <span class="rank-badge">1위</span>
+
+                  <!-- 
+                    대표 썸네일 이미지
+                    교체 방법:
+                    src="원하는 이미지 주소"
+                  -->
+                  <img
+                    src="https://images.unsplash.com/photo-1611162618071-b39a2ec055fb?auto=format&fit=crop&w=1200&q=80"
+                    alt="실시간 급상승 1위 대표 이미지"
+                  />
+                </a>
+
+                <a href="#" class="featured-title">
+                  개인 매수세에 코스피 상승... 코스닥은 3% 급등
+                </a>
+
+                <p class="featured-desc">
+                  현재 가장 빠르게 관심이 몰리는 이슈를 상단에서 강조 노출합니다.
+                  1위 항목은 이미지와 함께 크게 보여줘 시선을 먼저 잡는 구조입니다.
+                </p>
+              </div>
+
+              <!-- 2~5위는 텍스트만 노출 -->
+              <ul class="rank-list">
+                <li>
+                  <a href="#" class="rank-item">
+                    <span class="rank-number">2</span>
+                    <span class="rank-text">
+                      <span class="rank-headline">[날씨] 오후까지 산발적 비... 주말 영하권 추위 예고</span>
+                      <span class="rank-meta">기상 / 실시간 반응 급상승</span>
+                    </span>
+                  </a>
+                </li>
+
+                <li>
+                  <a href="#" class="rank-item">
+                    <span class="rank-number">3</span>
+                    <span class="rank-text">
+                      <span class="rank-headline">강원 산지에 또 대설... 봄꽃 대신 눈꽃 풍경</span>
+                      <span class="rank-meta">사회 / 화제성 높은 키워드</span>
+                    </span>
+                  </a>
+                </li>
+
+                <li>
+                  <a href="#" class="rank-item">
+                    <span class="rank-number">4</span>
+                    <span class="rank-text">
+                      <span class="rank-headline">모텔 살인범, 범행일 피해자 카드로 음식 주문 정황</span>
+                      <span class="rank-meta">사건 / 클릭 유입 강한 주제</span>
+                    </span>
+                  </a>
+                </li>
+
+                <li>
+                  <a href="#" class="rank-item">
+                    <span class="rank-number">5</span>
+                    <span class="rank-text">
+                      <span class="rank-headline">한국어능력시험 '대리 통과'... 국내 부정행위 적발</span>
+                      <span class="rank-meta">이슈 / 검색량 상승 중</span>
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </article>
+
+          <!-- =========================================
+               카드 2: 하루 이슈 랭킹
+               ========================================= -->
+          <article class="ranking-card">
+            <div class="ranking-card-header">
+              <h2 class="ranking-card-title">하루 이슈 랭킹</h2>
+              <a href="#" class="more-link">더보기</a>
+            </div>
+
+            <div class="ranking-card-body">
+
+              <!-- 하루 이슈 1위 -->
+              <div class="featured-rank">
+                <a href="#" class="featured-thumb">
+                  <span class="rank-badge">1위</span>
+                  <img
+                    src="https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1200&q=80"
+                    alt="하루 이슈 랭킹 1위 대표 이미지"
+                  />
+                </a>
+
+                <a href="#" class="featured-title">
+                  오늘 하루 가장 많이 회자된 이슈, 정치·경제 동시 강타
+                </a>
+
+                <p class="featured-desc">
+                  하루 기준으로 가장 주목받은 주제를 모아 보여주는 영역입니다.
+                  영상 주제를 하루 단위로 고를 때 활용하기 좋습니다.
+                </p>
+              </div>
+
+              <!-- 하루 이슈 2~5위 -->
+              <ul class="rank-list">
+                <li>
+                  <a href="#" class="rank-item">
+                    <span class="rank-number">2</span>
+                    <span class="rank-text">
+                      <span class="rank-headline">연예계 열애설 재점화... 온라인 반응 폭발</span>
+                      <span class="rank-meta">연예 / 대중 반응 강세</span>
+                    </span>
+                  </a>
+                </li>
+
+                <li>
+                  <a href="#" class="rank-item">
+                    <span class="rank-number">3</span>
+                    <span class="rank-text">
+                      <span class="rank-headline">대표팀 발표 임박... 축구 팬들 기대감 최고조</span>
+                      <span class="rank-meta">스포츠 / 커뮤니티 화제</span>
+                    </span>
+                  </a>
+                </li>
+
+                <li>
+                  <a href="#" class="rank-item">
+                    <span class="rank-number">4</span>
+                    <span class="rank-text">
+                      <span class="rank-headline">신작 드라마 첫 방송 후 시청률·화제성 동시 상승</span>
+                      <span class="rank-meta">콘텐츠 / 영상화 소재 적합</span>
+                    </span>
+                  </a>
+                </li>
+
+                <li>
+                  <a href="#" class="rank-item">
+                    <span class="rank-number">5</span>
+                    <span class="rank-text">
+                      <span class="rank-headline">가격 인상 소식에 소비자 반응 엇갈려... 밈 확산</span>
+                      <span class="rank-meta">생활 / 쇼츠 소재 가능</span>
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 
+      ===========================
+      하단 안내 섹션
+      ===========================
+      - 지금은 간단한 설명 + 버튼만 넣음
+      - 나중에 기능 소개 섹션으로 교체 가능
+    -->
+    <section class="info-section">
+      <div class="container">
+        <div class="info-box">
+          <div class="info-text">
+            <h2>급상승 이슈를 바로 확인하고, 영상 아이디어로 빠르게 연결하세요</h2>
+            <p>
+              실시간 트렌드 확인, 하루 단위 이슈 정리, 클릭 유도형 제목 아이디어 탐색까지
+              U-Check 메인페이지에서 한눈에 시작할 수 있도록 구성했습니다.
+            </p>
+          </div>
+
+          <a href="#" class="btn btn-primary">지금 랭킹 확인</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 
+    ===========================
+    푸터
+    ===========================
+    수정 포인트:
+    - 회사 정보
+    - 약관 / 개인정보처리방침 링크
+    - 문의 메일
+  -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">U-Check</div>
+
+        <div class="footer-links">
+          <a href="#">이용약관</a>
+          <a href="#">개인정보처리방침</a>
+          <a href="#">고객문의</a>
+        </div>
+      </div>
+
+      <p>© 2026 U-Check. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
