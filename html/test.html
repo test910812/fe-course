@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>주소 입력 페이지</title>
+
+  <style>
+    /* ------------------------------
+       [전체 페이지 기본 설정]
+    ------------------------------ */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    /* ------------------------------
+       [입력 박스]
+    ------------------------------ */
+    .form-box {
+      width: 360px;
+      background-color: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    /* ------------------------------
+       [제목 스타일]
+    ------------------------------ */
+    .form-box h1 {
+      margin: 0 0 20px;
+      text-align: center;
+      font-size: 24px;
+    }
+
+    /* ------------------------------
+       [입력칸 묶음]
+    ------------------------------ */
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    /* ------------------------------
+       [라벨 스타일]
+    ------------------------------ */
+    .form-group > label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    /* ------------------------------
+       [텍스트 입력칸]
+    ------------------------------ */
+    .form-group input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+
+    /* ------------------------------
+       [라디오 버튼 묶음]
+    ------------------------------ */
+    .radio-group {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    /* ------------------------------
+       [라디오 항목]
+    ------------------------------ */
+    .radio-group label {
+      font-size: 14px;
+    }
+
+    /* ------------------------------
+       [버튼 묶음]
+    ------------------------------ */
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    /* ------------------------------
+       [공통 버튼 스타일]
+    ------------------------------ */
+    .button-group button {
+      flex: 1;
+      padding: 12px;
+      font-size: 14px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    /* ------------------------------
+       [전송 버튼]
+    ------------------------------ */
+    .submit-btn {
+      background-color: #333;
+      color: white;
+    }
+
+    /* ------------------------------
+       [다시쓰기 버튼]
+    ------------------------------ */
+    .reset-btn {
+      background-color: #dcdcdc;
+      color: #222;
+    }
+
+    /* ------------------------------
+       [일반 버튼]
+    ------------------------------ */
+    .normal-btn {
+      background-color: #8aa9ff;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==============================
+       [입력 박스 시작]
+  ============================== -->
+  <div class="form-box">
+    <h1>주소 입력</h1>
+    <!-- [로그인 폼 시작] -->
+<form action="#" method="post">
+
+  <!-- [아이디 입력 영역] -->
+  <div class="form-group">
+    <label for="loginId">아이디</label>
+    <input
+      type="text"
+      id="loginId"
+      name="loginId"
+      placeholder="아이디를 입력하세요"
+      required
+    />
+  </div>
+
+  <!-- [비밀번호 입력 영역] -->
+  <div class="form-group">
+    <label for="loginPw">비밀번호</label>
+    <input
+      type="password"
+      id="loginPw"
+      name="loginPw"
+      placeholder="비밀번호를 입력하세요"
+      required
+    />
+  </div>
+
+
+    <!-- ==============================
+         [입력 폼]
+         method="get" : 현재는 연습용
+    ============================== -->
+    <form action="#" method="get">
+
+      <!-- [이름 입력 영역] -->
+      <div class="form-group">
+        <label for="userName">이름</label>
+        <input
+          type="text"
+          id="userName"
+          name="userName"
+          placeholder="이름을 입력하세요"
+          required
+        />
+      </div>
+
+      <!-- [주소 1 입력 영역] -->
+      <div class="form-group">
+        <label for="address1">주소 1</label>
+        <input
+          type="text"
+          id="address1"
+          name="address1"
+          placeholder="상세 주소를 입력하세요"
+          required
+        />
+      </div>
+
+      <!-- [주소 2 선택 영역]
+           radio : 여러 항목 중 1개만 선택
+      -->
+      <div class="form-group">
+        <label>주소 2</label>
+
+        <div class="radio-group">
+          <label>
+            <input type="checkbox" name="address2" value="서울시" required />
+            서울시
+          </label>
+
+          <label>
+            <input type="checkbox" name="address2" value="인천시" />
+            인천시
+          </label>
+
+          <label>
+            <input type="checkbox" name="address2" value="부산시" />
+            부산시
+          </label>
+        </div>
+        <div class="form-group">
+        <label>주소 3</label>
+
+        <div class="radio-group">
+          <label>
+            <input type="radio" name="address2" value="서울시" required />
+            서울시
+          </label>
+
+          <label>
+            <input type="radio" name="address2" value="인천시" />
+            인천시
+          </label>
+
+          <label>
+            <input type="radio" name="address2" value="부산시" />
+            부산시
+          </label>
+        </div>
+        <div class="form-group">
+        <label>주소 4</label>
+
+        <select id="address2" name="address2" required>
+            <option value="">선택하세요</option>
+            <option value="서울시">서울시</option>
+            <option value="인천시">인천시</option>
+            <option value="부산시">부산시</option>
+        </select>
+      </div>
+      
+
+      <!-- [버튼 묶음] -->
+      <div class="button-group">
+        <button type="submit" class="submit-btn">전송</button>
+        <button type="reset" class="reset-btn">다시쓰기</button>
+        <button type="button" class="normal-btn">버튼</button>
+      </div>
+    </form>
+  </div>
+
+</body>
+</html>

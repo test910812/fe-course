@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>로그인 페이지</title>
+
+  <style>
+    /* ------------------------------
+       [전체 페이지 기본 설정]
+       화면 가운데 정렬 + 배경색 지정
+    ------------------------------ */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    /* ------------------------------
+       [로그인 박스]
+       가운데 카드처럼 보이는 영역
+    ------------------------------ */
+    .login-box {
+      width: 320px;
+      background-color: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    /* ------------------------------
+       [제목 스타일]
+    ------------------------------ */
+    .login-box h1 {
+      margin: 0 0 20px;
+      text-align: center;
+      font-size: 24px;
+    }
+
+    /* ------------------------------
+       [입력칸 묶음]
+       label + input 간격 조절
+    ------------------------------ */
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    /* ------------------------------
+       [라벨 스타일]
+    ------------------------------ */
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    /* ------------------------------
+       [아이디/비밀번호 입력칸]
+    ------------------------------ */
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+
+    /* ------------------------------
+       [전송 버튼]
+    ------------------------------ */
+    .submit-btn {
+      width: 100%;
+      padding: 12px;
+      font-size: 15px;
+      border: none;
+      border-radius: 8px;
+      background-color: #333;
+      color: white;
+      cursor: pointer;
+    }
+
+    /* ------------------------------
+       [버튼 마우스 올렸을 때]
+    ------------------------------ */
+    .submit-btn:hover {
+      background-color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==============================
+       [로그인 박스 시작]
+       로그인 UI 전체를 감싸는 영역
+  ============================== -->
+  <div class="login-box">
+    <h1>로그인</h1>
+
+    <!-- ==============================
+         [로그인 폼]
+         action="#" : 임시 전송 주소
+         method="post" : 전송 방식
+    ============================== -->
+    <form action="#" method="get">
+
+      <!-- [아이디 입력 영역] -->
+      <div class="form-group">
+        <label for="userId">아이디</label>
+        <input
+          type="text"
+          id="userId"
+          name="userId"
+          placeholder="아이디를 입력하세요"
+          required
+        />
+      </div>
+
+      <!-- [비밀번호 입력 영역] -->
+      <div class="form-group">
+        <label for="userPw">비밀번호</label>
+        <input
+          type="password"
+          id="userPw"
+          name="userPw"
+          placeholder="비밀번호를 입력하세요"
+          required
+        />
+      </div>
+
+      <!-- [전송 버튼] -->
+      <button type="submit" class="submit-btn">전송</button>
+    </form>
+  </div>
+
+</body>
+</html>
