@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>U-Check | 회원가입</title>
+  <meta name="description" content="U-Check 회원가입 페이지" />
+
+  <style>
+    /* =========================================================
+       1. 공통 색상 변수
+       - 사이트 톤 바꾸고 싶으면 여기부터 수정
+       ========================================================= */
+    :root {
+      --main-red: #e62117;
+      --main-blue: #1e88e5;
+      --text-dark: #222222;
+      --text-gray: #666666;
+      --line-gray: #e5e7eb;
+      --white: #ffffff;
+      --error-red: #d92d20;
+      --success-green: #067647;
+      --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.08);
+      --radius-lg: 24px;
+      --radius-sm: 10px;
+    }
+
+    /* 기본 초기화 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      background: linear-gradient(180deg, #ffffff 0%, #f8f9fb 100%);
+      color: var(--text-dark);
+      min-height: 100vh;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    /* =========================================================
+       2. 상단 헤더
+       ========================================================= */
+    .site-header {
+      background: var(--white);
+      border-bottom: 1px solid var(--line-gray);
+    }
+
+    .header-inner {
+      width: min(100% - 32px, 1200px);
+      margin: 0 auto;
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-mark {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: var(--main-red);
+      position: relative;
+      box-shadow: 0 8px 20px rgba(230, 33, 23, 0.25);
+      flex-shrink: 0;
+    }
+
+    .logo-mark::after {
+      content: "";
+      position: absolute;
+      left: 12px;
+      top: 10px;
+      width: 22px;
+      height: 12px;
+      border-left: 5px solid var(--main-blue);
+      border-bottom: 5px solid var(--main-blue);
+      transform: rotate(-45deg);
+      border-radius: 2px;
+    }
+
+    .logo-text-wrap {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .logo-title {
+      font-size: 1.45rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .logo-title .u-red {
+      color: var(--main-red);
+    }
+
+    .logo-title .check-blue {
+      color: var(--main-blue);
+    }
+
+    .logo-sub {
+      margin-top: 4px;
+      font-size: 0.83rem;
+      color: var(--text-gray);
+    }
+
+    .header-link {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--main-red);
+    }
+
+    .header-link:hover {
+      text-decoration: underline;
+    }
+
+    /* =========================================================
+       3. 회원가입 메인 레이아웃
+       - 왼쪽 설명 / 오른쪽 입력 카드
+       ========================================================= */
+    .signup-page {
+      width: min(100% - 32px, 1200px);
+      margin: 0 auto;
+      min-height: calc(100vh - 79px);
+      display: grid;
+      grid-template-columns: 1fr 500px;
+      align-items: center;
+      gap: 48px;
+      padding: 48px 0;
+    }
+
+    .signup-info {
+      padding-right: 10px;
+    }
+
+    .info-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 14px;
+      border: 1px solid #ffd7d4;
+      border-radius: 999px;
+      background: #fff1f0;
+      color: var(--main-red);
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    .info-title {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.15;
+      letter-spacing: -0.04em;
+      font-weight: 900;
+      margin-bottom: 16px;
+    }
+
+    .info-title .red {
+      color: var(--main-red);
+    }
+
+    .info-title .blue {
+      color: var(--main-blue);
+    }
+
+    .info-desc {
+      color: var(--text-gray);
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 620px;
+    }
+
+    /* =========================================================
+       4. 회원가입 카드
+       ========================================================= */
+    .signup-card {
+      background: var(--white);
+      border: 1px solid var(--line-gray);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-soft);
+      padding: 32px 28px;
+    }
+
+    .card-title {
+      font-size: 1.8rem;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+    }
+
+    .card-desc {
+      color: var(--text-gray);
+      font-size: 0.95rem;
+      margin-bottom: 24px;
+    }
+
+    /* 상태 메시지 박스 */
+    .status-message {
+      display: none;
+      margin-bottom: 16px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    .status-message.show {
+      display: block;
+    }
+
+    .status-message.error {
+      background: #fff5f5;
+      color: var(--error-red);
+      border: 1px solid #f7c7c4;
+    }
+
+    .status-message.success {
+      background: #ecfdf3;
+      color: var(--success-green);
+      border: 1px solid #abefc6;
+    }
+
+    .signup-form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-label {
+      font-size: 0.94rem;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    .form-input {
+      width: 100%;
+      min-height: 52px;
+      padding: 0 16px;
+      border: 1px solid var(--line-gray);
+      border-radius: 14px;
+      background: var(--white);
+      color: var(--text-dark);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--main-red);
+      box-shadow: 0 0 0 4px rgba(230, 33, 23, 0.08);
+    }
+
+    .input-guide {
+      font-size: 0.84rem;
+      color: var(--text-gray);
+      line-height: 1.5;
+    }
+
+    .checkbox-wrap {
+      display: inline-flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.92rem;
+      color: var(--text-gray);
+      line-height: 1.6;
+      user-select: none;
+    }
+
+    .checkbox-wrap input {
+      width: 16px;
+      height: 16px;
+      margin-top: 3px;
+      accent-color: var(--main-red);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .text-link {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--main-red);
+    }
+
+    .text-link:hover {
+      text-decoration: underline;
+    }
+
+    .submit-btn {
+      width: 100%;
+      min-height: 54px;
+      border: none;
+      border-radius: 999px;
+      background: var(--main-red);
+      color: var(--white);
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.15s ease, filter 0.15s ease;
+      box-shadow: 0 10px 20px rgba(230, 33, 23, 0.18);
+    }
+
+    .submit-btn:hover {
+      filter: brightness(1.03);
+      transform: translateY(-1px);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .divider {
+      position: relative;
+      margin: 4px 0;
+      text-align: center;
+      color: var(--text-gray);
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    .divider::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 100%;
+      height: 1px;
+      background: var(--line-gray);
+      z-index: 0;
+    }
+
+    .divider span {
+      position: relative;
+      z-index: 1;
+      background: var(--white);
+      padding: 0 12px;
+    }
+
+    .card-footer {
+      text-align: center;
+      color: var(--text-gray);
+      font-size: 0.94rem;
+    }
+
+    .card-footer strong {
+      color: var(--text-dark);
+    }
+
+    /* =========================================================
+       5. 반응형
+       ========================================================= */
+    @media (max-width: 980px) {
+      .signup-page {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        padding: 32px 0 40px;
+      }
+
+      .signup-info {
+        padding-right: 0;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .header-inner {
+        min-height: 70px;
+      }
+
+      .logo-title {
+        font-size: 1.2rem;
+      }
+
+      .logo-sub {
+        display: none;
+      }
+
+      .signup-card {
+        padding: 24px 18px;
+      }
+
+      .card-title {
+        font-size: 1.5rem;
+      }
+
+      .info-title {
+        font-size: 1.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- =========================================================
+       상단 헤더
+       ========================================================= -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo" aria-label="U-Check 메인페이지로 이동">
+        <div class="logo-mark"></div>
+        <div class="logo-text-wrap">
+          <div class="logo-title">
+            <span class="u-red">U</span>-<span class="check-blue">Check</span>
+          </div>
+          <div class="logo-sub">트렌드 확인부터 아이디어 연결까지</div>
+        </div>
+      </a>
+
+      <a href="index.html" class="header-link">메인으로 돌아가기</a>
+    </div>
+  </header>
+
+  <main class="signup-page">
+    <!-- 왼쪽 설명 영역 -->
+    <section class="signup-info">
+      <div class="info-badge">보안 확장 가능 구조 회원가입</div>
+
+      <h1 class="info-title">
+        <span class="red">U-Check</span> 계정을 만들고<br />
+        <span class="blue">트렌드 흐름</span>을 저장하세요
+      </h1>
+
+      <p class="info-desc">
+        이 회원가입 페이지는 나중에 백엔드 회원가입 API와 자연스럽게 연결할 수 있도록
+        만든 프론트 구조입니다. 지금은 입력 UI와 검증 흐름을 먼저 잡고,
+        이후 서버에서 이메일 중복 확인, 비밀번호 해시 저장, 인증 처리까지 담당하면 됩니다.
+      </p>
+    </section>
+
+    <!-- 오른쪽 회원가입 카드 -->
+    <section class="signup-card">
+      <h2 class="card-title">회원가입</h2>
+      <p class="card-desc">
+        이메일과 비밀번호를 입력하고 U-Check를 시작하세요.
+      </p>
+
+      <!-- 에러/성공 메시지 표시 박스 -->
+      <div id="statusMessage" class="status-message" aria-live="polite"></div>
+
+      <!-- =========================================================
+           회원가입 폼
+           중요:
+           - 지금은 JS가 submit을 가로채서 처리
+           - 나중에 실제 서버 API로 연결 가능
+           ========================================================= -->
+      <form id="signupForm" class="signup-form" novalidate>
+
+        <!-- 이메일 입력 -->
+        <div class="form-group">
+          <label for="email" class="form-label">이메일</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="form-input"
+            placeholder="you@example.com"
+            autocomplete="email"
+            required
+          />
+          <p class="input-guide">
+            나중에 서버에서는 이 이메일의 중복 여부를 반드시 다시 검사해야 합니다.
+          </p>
+        </div>
+
+        <!-- 비밀번호 입력 -->
+        <div class="form-group">
+          <label for="password" class="form-label">비밀번호</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="form-input"
+            placeholder="비밀번호를 입력하세요"
+            autocomplete="new-password"
+            required
+            minlength="8"
+          />
+          <p class="input-guide">
+            영문, 숫자, 특수문자를 모두 포함하도록 기본 검증이 들어가 있습니다.
+          </p>
+        </div>
+
+        <!-- 비밀번호 확인 입력 -->
+        <div class="form-group">
+          <label for="confirmPassword" class="form-label">비밀번호 확인</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            class="form-input"
+            placeholder="비밀번호를 다시 입력하세요"
+            autocomplete="new-password"
+            required
+            minlength="8"
+          />
+        </div>
+
+        <!-- 약관 동의 -->
+        <label class="checkbox-wrap">
+          <input type="checkbox" id="agreeTerms" name="agreeTerms" />
+          <span>
+            <a href="#" class="text-link">이용약관</a> 및
+            <a href="#" class="text-link">개인정보처리방침</a>에 동의합니다.
+          </span>
+        </label>
+
+        <!-- 회원가입 버튼 -->
+        <button type="submit" id="submitBtn" class="submit-btn">
+          회원가입
+        </button>
+
+        <div class="divider">
+          <span>또는</span>
+        </div>
+
+        <div class="card-footer">
+          이미 계정이 있나요?
+          <a href="login.html" class="text-link"><strong>로그인</strong></a>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    /* =========================================================
+       1. DOM 요소 가져오기
+       - 나중에 수정할 때 이 변수명 기준으로 찾으면 됨
+       ========================================================= */
+    const signupForm = document.getElementById("signupForm");
+    const statusMessage = document.getElementById("statusMessage");
+    const submitBtn = document.getElementById("submitBtn");
+
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const confirmPasswordInput = document.getElementById("confirmPassword");
+    const agreeTermsInput = document.getElementById("agreeTerms");
+
+    /* =========================================================
+       2. 상태 메시지 출력 함수
+       ========================================================= */
+    function showStatus(type, message) {
+      statusMessage.className = "status-message show " + type;
+      statusMessage.textContent = message;
+    }
+
+    function hideStatus() {
+      statusMessage.className = "status-message";
+      statusMessage.textContent = "";
+    }
+
+    /* =========================================================
+       3. 비밀번호 기본 강도 검사
+       - 프론트 기본 검사용
+       - 실제 강제는 서버에서 다시 해야 함
+       ========================================================= */
+    function isStrongEnoughPassword(password) {
+      const hasLetter = /[A-Za-z]/.test(password);
+      const hasNumber = /[0-9]/.test(password);
+      const hasSpecial = /[^A-Za-z0-9]/.test(password);
+
+      return hasLetter && hasNumber && hasSpecial;
+    }
+
+    /* =========================================================
+       4. 회원가입 폼 검증
+       - 입력 형식 검사 전용
+       - 진짜 보안 검사는 서버에서 다시 해야 함
+       ========================================================= */
+    function validateSignupForm({ email, password, confirmPassword, agreeTerms }) {
+      const trimmedEmail = email.trim();
+
+      if (!trimmedEmail) {
+        return "이메일을 입력해주세요.";
+      }
+
+      if (!trimmedEmail.includes("@")) {
+        return "올바른 이메일 형식을 입력해주세요.";
+      }
+
+      if (!password) {
+        return "비밀번호를 입력해주세요.";
+      }
+
+      if (password.length < 8) {
+        return "비밀번호는 8자 이상 입력해주세요.";
+      }
+
+      if (!isStrongEnoughPassword(password)) {
+        return "비밀번호는 영문, 숫자, 특수문자를 모두 포함해주세요.";
+      }
+
+      if (!confirmPassword) {
+        return "비밀번호 확인을 입력해주세요.";
+      }
+
+      if (password !== confirmPassword) {
+        return "비밀번호와 비밀번호 확인이 일치하지 않습니다.";
+      }
+
+      if (!agreeTerms) {
+        return "이용약관 및 개인정보처리방침 동의가 필요합니다.";
+      }
+
+      return null;
+    }
+
+    /* =========================================================
+       5. 회원가입 요청 함수
+       현재:
+       - 가짜 성공 응답 반환
+       나중:
+       - 실제 서버 회원가입 API 연결
+
+       나중에 여기만 주로 바꾸면 됨
+       예:
+       fetch("/api/auth/signup", {...})
+       ========================================================= */
+    async function requestSignup(signupPayload) {
+      /*
+      // ================= 실제 백엔드 연결 시 예시 =================
+      const response = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: "include",
+        body: JSON.stringify(signupPayload)
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "회원가입에 실패했습니다.");
+      }
+
+      return await response.json();
+      // ===========================================================
+      */
+
+      /* 현재는 백엔드 전 단계라 예시용 성공 응답 */
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({
+            success: true,
+            message: "회원가입 요청 형식이 정상적으로 준비되었습니다."
+          });
+        }, 1000);
+      });
+    }
+
+    /* =========================================================
+       6. 폼 제출 이벤트
+       ========================================================= */
+    signupForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      hideStatus();
+
+      const formValues = {
+        email: emailInput.value,
+        password: passwordInput.value,
+        confirmPassword: confirmPasswordInput.value,
+        agreeTerms: agreeTermsInput.checked
+      };
+
+      const validationError = validateSignupForm(formValues);
+
+      if (validationError) {
+        showStatus("error", validationError);
+        return;
+      }
+
+      /* 서버로 보낼 실제 데이터
+         - confirmPassword는 프론트 검사용이라 제외 */
+      const signupPayload = {
+        email: formValues.email.trim(),
+        password: formValues.password
+      };
+
+      try {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "가입 처리 중...";
+
+        const result = await requestSignup(signupPayload);
+
+        showStatus("success", result.message || "회원가입 요청이 완료되었습니다.");
+
+        /*
+          나중에 실제 회원가입 성공 후 이동 예시
+          window.location.href = "login.html";
+        */
+      } catch (error) {
+        console.error("회원가입 요청 실패:", error);
+        showStatus("error", error.message || "회원가입 중 오류가 발생했습니다.");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "회원가입";
+      }
+    });
+  </script>
+</body>
+</html>

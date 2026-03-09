@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- =========================
+       SEO / 기본 정보
+       ========================= -->
+  <title>U-Check | 실시간 급상승 랭킹 & 하루 이슈 랭킹</title>
+  <meta
+    name="description"
+    content="실시간 급상승 랭킹과 하루 이슈 랭킹을 한눈에 확인할 수 있는 U-Check 메인페이지"
+  />
+
+  <!-- 외부 CSS 연결 -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- =========================
+       헤더
+       - 로고
+       - 메뉴
+       - 로그인 / 회원가입
+       ========================= -->
+  <header class="site-header">
+    <div class="container header-inner">
+
+      <!-- 로고 영역
+           나중에 실제 이미지 로고로 바꾸고 싶으면
+           .logo-mark 대신 <img> 넣으면 됨 -->
+      <a href="index.html" class="logo" aria-label="U-Check 홈으로 이동">
+        <div class="logo-mark"></div>
+        <div class="logo-text-wrap">
+          <div class="logo-title">
+            <span class="u-red">U</span>-<span class="check-blue">Check</span>
+          </div>
+          <div class="logo-sub">트렌드 확인부터 아이디어 연결까지</div>
+        </div>
+      </a>
+
+      <!-- 상단 메뉴 -->
+      <nav class="nav-menu">
+        <a href="index.html">홈</a>
+        <a href="realtime.html">실시간 랭킹</a>
+        <a href="issue.html">하루 이슈</a>
+        <a href="#">카테고리</a>
+        <a href="#">문의</a>
+      </nav>
+
+      <!-- 우측 버튼 -->
+      <div class="header-actions">
+        <a href="login.html" class="btn btn-outline">로그인</a>
+        <a href="signup.html" class="btn btn-primary">회원가입</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- =========================
+         히어로 섹션
+         - 문구는 나중에 수정해도 됨
+         - 지금은 구조만 잡아둔 상태
+         ========================= -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-box">
+          <div class="hero-badge">실시간 트렌드 기반 유튜브 아이디어 탐색</div>
+
+          <h1 class="hero-title">
+            지금 뜨는 키워드를 빠르게 확인하고<br />
+            <span class="highlight-red">잘 될만한 주제</span>를
+            <span class="highlight-blue">바로 찾으세요</span>
+          </h1>
+
+          <p class="hero-desc">
+            U-Check는 직접 수집한 데이터를 바탕으로 실시간 급상승 랭킹과 하루 이슈 랭킹을 보여줍니다.
+            영상 주제 선정, 쇼츠 소재 탐색, 대본 아이디어 정리에 활용할 수 있도록 구성했습니다.
+          </p>
+
+          <div class="hero-actions">
+            <a href="realtime.html" class="btn btn-primary">실시간 랭킹 보기</a>
+            <a href="issue.html" class="btn btn-outline">하루 이슈 보기</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================
+         메인 랭킹 섹션
+         중요:
+         - 이 안의 내용은 HTML에 고정으로 박지 않음
+         - script.js가 ranking.json을 읽어서 자동 생성함
+         - 그래서 아래 두 개 div는 "데이터가 들어갈 자리"임
+         ========================= -->
+    <section class="ranking-section">
+      <div class="container">
+        <div class="ranking-grid">
+
+          <!-- 실시간 급상승 랭킹 카드가 들어갈 자리 -->
+          <div id="realtime-ranking-container"></div>
+
+          <!-- 하루 이슈 랭킹 카드가 들어갈 자리 -->
+          <div id="issue-ranking-container"></div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================
+         하단 CTA
+         - 이것도 나중에 기능 소개 섹션으로 교체 가능
+         ========================= -->
+    <section class="info-section">
+      <div class="container">
+        <div class="info-box">
+          <div class="info-text">
+            <h2>지금 뜨는 흐름을 빠르게 확인하고 바로 영상 아이디어로 연결하세요</h2>
+            <p>
+              급상승 키워드, 하루 이슈, 관심도 높은 화제 주제를 메인에서 먼저 확인할 수 있게 구성했습니다.
+              지금은 JSON 데이터 구조로 연결되어 있어서, 나중에 자동 수집 쪽으로 확장하기 쉽습니다.
+            </p>
+          </div>
+
+          <a href="realtime.html" class="btn btn-primary">랭킹 보러가기</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =========================
+       푸터
+       ========================= -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">U-Check</div>
+
+        <div class="footer-links">
+          <a href="#">이용약관</a>
+          <a href="#">개인정보처리방침</a>
+          <a href="#">고객문의</a>
+        </div>
+      </div>
+
+      <p>© 2026 U-Check. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- 외부 JS 연결 -->
+  <script src="script.js"></script>
+</body>
+</html>

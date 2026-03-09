@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- 
+    =========================================================
+    페이지 기본 정보
+    =========================================================
+    - title: 브라우저 탭 제목
+    - description: 검색/기본 정보용
+  -->
+  <title>U-Check | 로그인</title>
+  <meta name="description" content="U-Check 로그인 페이지" />
+
+  <style>
+    /* 
+      =========================================================
+      1. 공통 색상 변수
+      =========================================================
+      - 사이트 전체 색 바꾸고 싶으면 여기부터 수정
+    */
+    :root {
+      --main-red: #e62117;
+      --main-blue: #1e88e5;
+      --text-dark: #222222;
+      --text-gray: #666666;
+      --line-gray: #e5e7eb;
+      --bg-light: #f8f9fb;
+      --white: #ffffff;
+      --error-red: #d92d20;
+      --success-green: #067647;
+      --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.08);
+      --radius-lg: 24px;
+      --radius-md: 16px;
+      --radius-sm: 10px;
+    }
+
+    /* 기본 여백 제거 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      background: linear-gradient(180deg, #ffffff 0%, #f8f9fb 100%);
+      color: var(--text-dark);
+      min-height: 100vh;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    /* 
+      =========================================================
+      2. 상단 헤더
+      =========================================================
+      - 메인페이지 톤과 맞춤
+    */
+    .site-header {
+      background: var(--white);
+      border-bottom: 1px solid var(--line-gray);
+    }
+
+    .header-inner {
+      width: min(100% - 32px, 1200px);
+      margin: 0 auto;
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-mark {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: var(--main-red);
+      position: relative;
+      box-shadow: 0 8px 20px rgba(230, 33, 23, 0.25);
+      flex-shrink: 0;
+    }
+
+    .logo-mark::after {
+      content: "";
+      position: absolute;
+      left: 12px;
+      top: 10px;
+      width: 22px;
+      height: 12px;
+      border-left: 5px solid var(--main-blue);
+      border-bottom: 5px solid var(--main-blue);
+      transform: rotate(-45deg);
+      border-radius: 2px;
+    }
+
+    .logo-text-wrap {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .logo-title {
+      font-size: 1.45rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .logo-title .u-red {
+      color: var(--main-red);
+    }
+
+    .logo-title .check-blue {
+      color: var(--main-blue);
+    }
+
+    .logo-sub {
+      margin-top: 4px;
+      font-size: 0.83rem;
+      color: var(--text-gray);
+    }
+
+    .header-link {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--main-red);
+    }
+
+    .header-link:hover {
+      text-decoration: underline;
+    }
+
+    /* 
+      =========================================================
+      3. 로그인 메인 레이아웃
+      =========================================================
+      - 화면 중앙 정렬
+      - 왼쪽 설명 / 오른쪽 로그인 카드
+    */
+    .login-page {
+      width: min(100% - 32px, 1200px);
+      margin: 0 auto;
+      min-height: calc(100vh - 79px);
+      display: grid;
+      grid-template-columns: 1fr 460px;
+      align-items: center;
+      gap: 48px;
+      padding: 48px 0;
+    }
+
+    .login-info {
+      padding-right: 10px;
+    }
+
+    .info-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 14px;
+      border: 1px solid #ffd7d4;
+      border-radius: 999px;
+      background: #fff1f0;
+      color: var(--main-red);
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    .info-title {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.15;
+      letter-spacing: -0.04em;
+      font-weight: 900;
+      margin-bottom: 16px;
+    }
+
+    .info-title .red {
+      color: var(--main-red);
+    }
+
+    .info-title .blue {
+      color: var(--main-blue);
+    }
+
+    .info-desc {
+      color: var(--text-gray);
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 620px;
+    }
+
+    /* 
+      =========================================================
+      4. 로그인 카드
+      =========================================================
+      - 실제 입력 폼 영역
+      - 나중에 백엔드 API와 연결될 핵심 부분
+    */
+    .login-card {
+      background: var(--white);
+      border: 1px solid var(--line-gray);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-soft);
+      padding: 32px 28px;
+    }
+
+    .card-title {
+      font-size: 1.8rem;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+    }
+
+    .card-desc {
+      color: var(--text-gray);
+      font-size: 0.95rem;
+      margin-bottom: 24px;
+    }
+
+    /* 상태 메시지 */
+    .status-message {
+      display: none;
+      margin-bottom: 16px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    .status-message.show {
+      display: block;
+    }
+
+    .status-message.error {
+      background: #fff5f5;
+      color: var(--error-red);
+      border: 1px solid #f7c7c4;
+    }
+
+    .status-message.success {
+      background: #ecfdf3;
+      color: var(--success-green);
+      border: 1px solid #abefc6;
+    }
+
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-label {
+      font-size: 0.94rem;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    .form-input {
+      width: 100%;
+      min-height: 52px;
+      padding: 0 16px;
+      border: 1px solid var(--line-gray);
+      border-radius: 14px;
+      background: var(--white);
+      color: var(--text-dark);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--main-red);
+      box-shadow: 0 0 0 4px rgba(230, 33, 23, 0.08);
+    }
+
+    .form-help-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: -4px;
+    }
+
+    .checkbox-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.92rem;
+      color: var(--text-gray);
+      user-select: none;
+    }
+
+    .checkbox-wrap input {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--main-red);
+      cursor: pointer;
+    }
+
+    .text-link {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--main-red);
+    }
+
+    .text-link:hover {
+      text-decoration: underline;
+    }
+
+    .submit-btn {
+      width: 100%;
+      min-height: 54px;
+      border: none;
+      border-radius: 999px;
+      background: var(--main-red);
+      color: var(--white);
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.15s ease, filter 0.15s ease;
+      box-shadow: 0 10px 20px rgba(230, 33, 23, 0.18);
+    }
+
+    .submit-btn:hover {
+      filter: brightness(1.03);
+      transform: translateY(-1px);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .divider {
+      position: relative;
+      margin: 4px 0;
+      text-align: center;
+      color: var(--text-gray);
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    .divider::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 100%;
+      height: 1px;
+      background: var(--line-gray);
+      z-index: 0;
+    }
+
+    .divider span {
+      position: relative;
+      z-index: 1;
+      background: var(--white);
+      padding: 0 12px;
+    }
+
+    .card-footer {
+      text-align: center;
+      color: var(--text-gray);
+      font-size: 0.94rem;
+    }
+
+    .card-footer strong {
+      color: var(--text-dark);
+    }
+
+    /* 
+      =========================================================
+      5. 반응형
+      =========================================================
+    */
+    @media (max-width: 980px) {
+      .login-page {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        padding: 32px 0 40px;
+      }
+
+      .login-info {
+        padding-right: 0;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .header-inner {
+        min-height: 70px;
+      }
+
+      .logo-title {
+        font-size: 1.2rem;
+      }
+
+      .logo-sub {
+        display: none;
+      }
+
+      .login-card {
+        padding: 24px 18px;
+      }
+
+      .card-title {
+        font-size: 1.5rem;
+      }
+
+      .info-title {
+        font-size: 1.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 
+    =========================================================
+    상단 헤더
+    =========================================================
+  -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo" aria-label="U-Check 메인페이지로 이동">
+        <div class="logo-mark"></div>
+        <div class="logo-text-wrap">
+          <div class="logo-title">
+            <span class="u-red">U</span>-<span class="check-blue">Check</span>
+          </div>
+          <div class="logo-sub">트렌드 확인부터 아이디어 연결까지</div>
+        </div>
+      </a>
+
+      <a href="index.html" class="header-link">메인으로 돌아가기</a>
+    </div>
+  </header>
+
+  <!-- 
+    =========================================================
+    로그인 메인 영역
+    =========================================================
+  -->
+  <main class="login-page">
+    <!-- 왼쪽 설명 영역 -->
+    <section class="login-info">
+      <div class="info-badge">보안 확장 가능 구조 로그인</div>
+
+      <h1 class="info-title">
+        <span class="red">U-Check</span>에 로그인하고<br />
+        <span class="blue">트렌드 흐름</span>을 이어서 확인하세요
+      </h1>
+
+      <p class="info-desc">
+        이 로그인 페이지는 나중에 백엔드 인증 시스템과 자연스럽게 연결할 수 있도록
+        구성한 프론트 구조입니다. 지금 단계에서는 화면과 전송 구조를 먼저 잡고,
+        이후 서버에서 비밀번호 검증, 세션 또는 토큰 발급, 사용자 인증을 처리하면 됩니다.
+      </p>
+    </section>
+
+    <!-- 오른쪽 로그인 카드 -->
+    <section class="login-card">
+      <h2 class="card-title">로그인</h2>
+      <p class="card-desc">
+        가입한 이메일과 비밀번호를 입력하세요.
+      </p>
+
+      <!-- 
+        상태 메시지 박스
+        - 에러 / 성공 문구를 JS가 여기에 표시함
+      -->
+      <div id="statusMessage" class="status-message" aria-live="polite"></div>
+
+      <!-- 
+        =========================================================
+        로그인 폼
+        =========================================================
+        중요:
+        - action 비워둠
+        - submit 시 JS가 가로채서 fetch로 서버 전송
+        - 나중에 실제 로그인 API 주소만 바꿔주면 됨
+      -->
+      <form id="loginForm" class="login-form" novalidate>
+        <!-- 이메일 입력 -->
+        <div class="form-group">
+          <label for="email" class="form-label">이메일</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="form-input"
+            placeholder="you@example.com"
+            autocomplete="email"
+            required
+          />
+        </div>
+
+        <!-- 비밀번호 입력 -->
+        <div class="form-group">
+          <label for="password" class="form-label">비밀번호</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="form-input"
+            placeholder="비밀번호를 입력하세요"
+            autocomplete="current-password"
+            required
+            minlength="8"
+          />
+        </div>
+
+        <!-- 보조 옵션 영역 -->
+        <div class="form-help-row">
+          <label class="checkbox-wrap">
+            <input type="checkbox" id="rememberMe" name="rememberMe" />
+            로그인 상태 유지
+          </label>
+
+          <a href="#" class="text-link">비밀번호 찾기</a>
+        </div>
+
+        <!-- 로그인 버튼 -->
+        <button type="submit" id="submitBtn" class="submit-btn">
+          로그인
+        </button>
+
+        <div class="divider">
+          <span>또는</span>
+        </div>
+
+        <div class="card-footer">
+          아직 계정이 없나요?
+          <a href="signup.html" class="text-link"><strong>회원가입</strong></a>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    /* 
+      =========================================================
+      1. DOM 요소 가져오기
+      =========================================================
+      - 나중에 기능 수정할 때 여기 변수명 기준으로 찾으면 됨
+    */
+    const loginForm = document.getElementById("loginForm");
+    const statusMessage = document.getElementById("statusMessage");
+    const submitBtn = document.getElementById("submitBtn");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const rememberMeInput = document.getElementById("rememberMe");
+
+    /* 
+      =========================================================
+      2. 상태 메시지 출력 함수
+      =========================================================
+      - type: "error" 또는 "success"
+      - message: 사용자에게 보여줄 문구
+    */
+    function showStatus(type, message) {
+      statusMessage.className = "status-message show " + type;
+      statusMessage.textContent = message;
+    }
+
+    /* 상태 메시지 숨기기 */
+    function hideStatus() {
+      statusMessage.className = "status-message";
+      statusMessage.textContent = "";
+    }
+
+    /* 
+      =========================================================
+      3. 프론트 기본 검증
+      =========================================================
+      - 보안 검증이 아니라 "입력 형식 확인" 수준
+      - 진짜 검증은 서버에서 다시 해야 함
+    */
+    function validateLoginForm(email, password) {
+      const trimmedEmail = email.trim();
+
+      if (!trimmedEmail) {
+        return "이메일을 입력해주세요.";
+      }
+
+      if (!trimmedEmail.includes("@")) {
+        return "올바른 이메일 형식을 입력해주세요.";
+      }
+
+      if (!password) {
+        return "비밀번호를 입력해주세요.";
+      }
+
+      if (password.length < 8) {
+        return "비밀번호는 8자 이상 입력해주세요.";
+      }
+
+      return null;
+    }
+
+    /* 
+      =========================================================
+      4. 로그인 요청 함수
+      =========================================================
+      지금은 핵심 구조만 먼저 만들어둠.
+      
+      나중에 서버가 생기면 아래 fetch 주소를 바꾸면 됨.
+      예:
+      fetch("/api/auth/login", { ... })
+      
+      서버에서 보통 기대하는 값 예시:
+      {
+        email: "test@test.com",
+        password: "사용자입력값",
+        rememberMe: true
+      }
+    */
+    async function requestLogin(loginPayload) {
+      /* 
+        ---------------------------------------------------------
+        [현재 상태]
+        아직 진짜 백엔드가 없으므로 예시용 가짜 응답을 반환함.
+        ---------------------------------------------------------
+        나중에 이 부분을 실제 fetch로 바꾸면 됨.
+      */
+
+      /*
+      // ================= 실제 백엔드 연결 시 예시 =================
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: "include", 
+        // ↑ 세션/쿠키 기반 로그인 시 자주 사용
+        body: JSON.stringify(loginPayload)
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "로그인에 실패했습니다.");
+      }
+
+      return await response.json();
+      // ===========================================================
+      */
+
+      /* 
+        지금은 백엔드 전 단계이므로,
+        화면 동작 확인용으로만 1초 뒤 성공 응답 흉내냄
+      */
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({
+            success: true,
+            message: "로그인 요청 형식이 정상적으로 준비되었습니다."
+          });
+        }, 1000);
+      });
+    }
+
+    /* 
+      =========================================================
+      5. 폼 제출 이벤트
+      =========================================================
+      - 로그인 버튼 누르면 실행
+      - 기본 입력 검증
+      - 서버 전송 준비
+      - 성공/실패 메시지 출력
+    */
+    loginForm.addEventListener("submit", async function (event) {
+      /* 기본 form 새로고침 막기 */
+      event.preventDefault();
+
+      hideStatus();
+
+      /* 입력값 가져오기 */
+      const email = emailInput.value;
+      const password = passwordInput.value;
+      const rememberMe = rememberMeInput.checked;
+
+      /* 프론트 기본 검증 */
+      const validationError = validateLoginForm(email, password);
+
+      if (validationError) {
+        showStatus("error", validationError);
+        return;
+      }
+
+      /* 서버에 보낼 데이터 객체 */
+      const loginPayload = {
+        email: email.trim(),
+        password: password,
+        rememberMe: rememberMe
+      };
+
+      try {
+        /* 버튼 비활성화로 중복 제출 방지 */
+        submitBtn.disabled = true;
+        submitBtn.textContent = "로그인 중...";
+
+        /* 로그인 요청 */
+        const result = await requestLogin(loginPayload);
+
+        /* 성공 메시지 */
+        showStatus("success", result.message || "로그인 요청이 완료되었습니다.");
+
+        /* 
+          나중에 실제 로그인 성공 시 여기서 페이지 이동 가능
+          예:
+          window.location.href = "dashboard.html";
+        */
+
+      } catch (error) {
+        console.error("로그인 요청 실패:", error);
+        showStatus("error", error.message || "로그인 중 오류가 발생했습니다.");
+      } finally {
+        /* 버튼 복구 */
+        submitBtn.disabled = false;
+        submitBtn.textContent = "로그인";
+      }
+    });
+  </script>
+</body>
+</html>
